@@ -10,7 +10,7 @@ public class Customer {
     public Customer(String customerId, String name, String email, String phoneNumber, String address, int bonusPoints) {
         this.customerId = customerId;
         this.name = name;
-        this.email = email;
+        setEmail(email);
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.bonusPoints = bonusPoints;
@@ -29,7 +29,13 @@ public class Customer {
     // Setters
     public void setCustomerId(String customerId) { this.customerId = customerId; }
     public void setName(String name) { this.name = name; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        if(email.contains("@") && email.contains(".")){
+            this.email = email;
+        } else {
+            this.email = "Invalid Email";
+        }
+    }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
     public void setAddress(String address) { this.address = address; }
     public void setBonusPoints(int bonusPoints) { this.bonusPoints = bonusPoints; }

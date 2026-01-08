@@ -21,7 +21,7 @@ public class Order {
 
     // Setters
     public void setOrderId(int orderId) { this.orderId = orderId; }
-    public void setCustomerName(String itemName) { this.customerName = customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
     public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
     public void setStatus(String status) { this.status = status; }
 

@@ -46,6 +46,7 @@ public class ClothingItem {
 
     public void setStockQuantity(int stockQuantity) {
         if(stockQuantity < 0) throw new IllegalArgumentException("Stock can not be negative.");
+        this.stockQuantity = stockQuantity;
     }
 
     // methods
