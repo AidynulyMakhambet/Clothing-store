@@ -1,15 +1,16 @@
 public class ClothingItem {
-    private String clothingId;
-    private String name;
-    private Brand brand;
-    private Size size;
-    private String color;
-    private String category;
-    private double price;
-    private int stockQuantity;
+    protected String clothingId;
+    protected String name;
+    protected Brand brand;
+    protected Size size;
+    protected String color;
+    protected String category;
+    protected double price;
+    protected int stockQuantity;
 
     // constructor
-    public ClothingItem(String clothingId, String name, Brand brand, Size size, String color, String category, double price, int stockQuantity){
+    public ClothingItem(String clothingId, String name, Brand brand, Size size,
+                        String color, String category, double price, int stockQuantity){
         this.clothingId = clothingId;
         this.name = name;
         this.brand = brand;
@@ -19,6 +20,14 @@ public class ClothingItem {
         setPrice(price);
         setStockQuantity(stockQuantity);
     }
+
+    public String getType() { return "Generic"; }
+
+    public void wear() {
+        System.out.println(name + " is being worn.");
+    }
+
+    public double shippingFee() { return 1000; } // example
 
     // getters
     public String getId() { return clothingId; }
