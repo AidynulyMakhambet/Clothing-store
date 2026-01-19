@@ -135,115 +135,139 @@ public class clothingStoreMenu implements Menu{
     } // End of main method
 
     private void addPants() {
-        System.out.println("\n--- ADD PANTS (Child) ---");
+        try {
+            System.out.println("\n--- ADD PANTS (Child) ---");
 
-        System.out.print("Enter clothingId: ");
-        String clothingId = scanner.nextLine();
+            System.out.print("Enter clothingId: ");
+            String clothingId = scanner.nextLine();
 
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine();
+            System.out.print("Enter name: ");
+            String name = scanner.nextLine();
 
-        System.out.print("Enter brandId: ");
-        String brandId = scanner.nextLine();
-        System.out.print("Enter brand name: ");
-        String brandName = scanner.nextLine();
-        System.out.print("Enter brand rating: ");
-        double brandRating = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("Enter brand country: ");
-        String brandCountry = scanner.nextLine();
+            System.out.print("Enter brandId: ");
+            String brandId = scanner.nextLine();
+            System.out.print("Enter brand name: ");
+            String brandName = scanner.nextLine();
+            System.out.print("Enter brand rating: ");
+            double brandRating = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter brand country: ");
+            String brandCountry = scanner.nextLine();
 
-        System.out.print("Enter size: ");
-        String sizeSize = scanner.nextLine();
-        System.out.print("Enter size type: ");
-        String sizeType = scanner.nextLine();
+            System.out.print("Enter size: ");
+            String sizeSize = scanner.nextLine();
+            System.out.print("Enter size type: ");
+            String sizeType = scanner.nextLine();
 
-        System.out.print("Enter chestCm: ");
-        double chest = scanner.nextDouble(); scanner.nextLine();
-        System.out.print("Enter waistCm: ");
-        double waist = scanner.nextDouble(); scanner.nextLine();
-        System.out.print("Enter hipCm: ");
-        double hip = scanner.nextDouble(); scanner.nextLine();
+            System.out.print("Enter chestCm: ");
+            double chest = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter waistCm: ");
+            double waist = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter hipCm: ");
+            double hip = scanner.nextDouble();
+            scanner.nextLine();
 
-        System.out.print("Enter color: ");
-        String color = scanner.nextLine();
+            System.out.print("Enter color: ");
+            String color = scanner.nextLine();
 
-        System.out.print("Enter price: ");
-        double price = scanner.nextDouble(); scanner.nextLine();
+            System.out.print("Enter price: ");
+            double price = scanner.nextDouble();
+            scanner.nextLine();
 
-        System.out.print("Enter stockQuantity: ");
-        int stock = scanner.nextInt(); scanner.nextLine();
+            System.out.print("Enter stockQuantity: ");
+            int stock = scanner.nextInt();
+            scanner.nextLine();
 
-        // child fields
-        System.out.print("Enter fit (Slim/Regular/...): ");
-        String fit = scanner.nextLine();
+            // child fields
+            System.out.print("Enter fit (Slim/Regular/...): ");
+            String fit = scanner.nextLine();
 
-        System.out.print("Has belt loops? (true/false): ");
-        boolean hasBeltLoops = scanner.nextBoolean();
-        scanner.nextLine();
+            System.out.print("Has belt loops? (true/false): ");
+            boolean hasBeltLoops = scanner.nextBoolean();
+            scanner.nextLine();
 
-        Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
-        Size size = new Size(sizeSize, sizeType);
-        size.setMeasurements(chest, waist, hip);
+            Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
+            Size size = new Size(sizeSize, sizeType);
+            size.setMeasurements(chest, waist, hip);
 
-        allClothingItems.add(new Pants(clothingId, name, brand, size, color, price, stock, fit, hasBeltLoops));
-        System.out.println("\n✅ Pants added successfully!");
+            allClothingItems.add(new Pants(clothingId, name, brand, size, color, price, stock, fit, hasBeltLoops));
+            System.out.println("\n✅ Pants added successfully!");
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid input type!");
+            scanner.nextLine();
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Validation Error: " + e.getMessage());
+        }
     }
 
     private void addShirt() {
-        System.out.println("\n--- ADD SHIRT (Child) ---");
+        try {
+            System.out.println("\n--- ADD SHIRT (Child) ---");
 
-        System.out.print("Enter clothingId: ");
-        String clothingId = scanner.nextLine();
+            System.out.print("Enter clothingId: ");
+            String clothingId = scanner.nextLine();
 
-        System.out.print("Enter name: ");
-        String name = scanner.nextLine();
+            System.out.print("Enter name: ");
+            String name = scanner.nextLine();
 
-        System.out.print("Enter brandId: ");
-        String brandId = scanner.nextLine();
-        System.out.print("Enter brand name: ");
-        String brandName = scanner.nextLine();
-        System.out.print("Enter brand rating: ");
-        double brandRating = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("Enter brand country: ");
-        String brandCountry = scanner.nextLine();
+            System.out.print("Enter brandId: ");
+            String brandId = scanner.nextLine();
+            System.out.print("Enter brand name: ");
+            String brandName = scanner.nextLine();
+            System.out.print("Enter brand rating: ");
+            double brandRating = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter brand country: ");
+            String brandCountry = scanner.nextLine();
 
-        System.out.print("Enter size: ");
-        String sizeSize = scanner.nextLine();
-        System.out.print("Enter size type: ");
-        String sizeType = scanner.nextLine();
+            System.out.print("Enter size: ");
+            String sizeSize = scanner.nextLine();
+            System.out.print("Enter size type: ");
+            String sizeType = scanner.nextLine();
 
-        System.out.print("Enter chestCm: ");
-        double chest = scanner.nextDouble(); scanner.nextLine();
-        System.out.print("Enter waistCm: ");
-        double waist = scanner.nextDouble(); scanner.nextLine();
-        System.out.print("Enter hipCm: ");
-        double hip = scanner.nextDouble(); scanner.nextLine();
+            System.out.print("Enter chestCm: ");
+            double chest = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter waistCm: ");
+            double waist = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.print("Enter hipCm: ");
+            double hip = scanner.nextDouble();
+            scanner.nextLine();
 
-        System.out.print("Enter color: ");
-        String color = scanner.nextLine();
+            System.out.print("Enter color: ");
+            String color = scanner.nextLine();
 
-        System.out.print("Enter price: ");
-        double price = scanner.nextDouble(); scanner.nextLine();
+            System.out.print("Enter price: ");
+            double price = scanner.nextDouble();
+            scanner.nextLine();
 
-        System.out.print("Enter stockQuantity: ");
-        int stock = scanner.nextInt(); scanner.nextLine();
+            System.out.print("Enter stockQuantity: ");
+            int stock = scanner.nextInt();
+            scanner.nextLine();
 
-        // child fields
-        System.out.print("Enter sleeveType (Short/Long): ");
-        String sleeveType = scanner.nextLine();
+            // child fields
+            System.out.print("Enter sleeveType (Short/Long): ");
+            String sleeveType = scanner.nextLine();
 
-        System.out.print("Has collar? (true/false): ");
-        boolean hasCollar = scanner.nextBoolean();
-        scanner.nextLine();
+            System.out.print("Has collar? (true/false): ");
+            boolean hasCollar = scanner.nextBoolean();
+            scanner.nextLine();
 
-        Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
-        Size size = new Size(sizeSize, sizeType);
-        size.setMeasurements(chest, waist, hip);
+            Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
+            Size size = new Size(sizeSize, sizeType);
+            size.setMeasurements(chest, waist, hip);
 
-        allClothingItems.add(new Shirt(clothingId, name, brand, size, color, price, stock, sleeveType, hasCollar));
-        System.out.println("\n✅ Model.Shirt added successfully!");
+            allClothingItems.add(new Shirt(clothingId, name, brand, size, color, price, stock, sleeveType, hasCollar));
+            System.out.println("\n✅ Model.Shirt added successfully!");
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid input type!");
+            scanner.nextLine();
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Validation Error: " + e.getMessage());
+        }
     }
 
     private void viewAllClothingItems() {
@@ -389,27 +413,34 @@ public class clothingStoreMenu implements Menu{
     }
 
     private void addOrder() {
-        System.out.println("\n--- ADD ORDER ---");
+        try {
+            System.out.println("\n--- ADD ORDER ---");
 
-        System.out.print("Enter orderId: ");
-        int orderId = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+            System.out.print("Enter orderId: ");
+            int orderId = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
-        System.out.print("Enter customer name: ");
-        String customerName = scanner.nextLine();
+            System.out.print("Enter customer name: ");
+            String customerName = scanner.nextLine();
 
-        System.out.print("Enter total amount: ");
-        double totalAmount = scanner.nextDouble();
-        scanner.nextLine(); // consume newline
+            System.out.print("Enter total amount: ");
+            double totalAmount = scanner.nextDouble();
+            scanner.nextLine(); // consume newline
 
-        System.out.print("Enter status (Pending/Completed/Canceled): ");
-        String status = scanner.nextLine();
-        if (status.trim().isEmpty()) status = "Pending";
+            System.out.print("Enter status (Pending/Completed/Canceled): ");
+            String status = scanner.nextLine();
+            if (status.trim().isEmpty()) status = "Pending";
 
-        Order order = new Order(orderId, customerName, totalAmount, status);
-        allOrders.add(order);
+            Order order = new Order(orderId, customerName, totalAmount, status);
+            allOrders.add(order);
 
-        System.out.println("\n✅ Model.Order added successfully!");
+            System.out.println("\n✅ Model.Order added successfully!");
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid input type!");
+            scanner.nextLine();
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Validation Error: " + e.getMessage());
+        }
     }
 
     private void viewAllOrders() {
