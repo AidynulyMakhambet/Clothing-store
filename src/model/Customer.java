@@ -1,3 +1,7 @@
+package model;
+
+import exception.InvalidInputException;
+
 public class Customer {
     private String customerId;
     private String name;
@@ -13,9 +17,49 @@ public class Customer {
         setEmail(email);
         this.phoneNumber = phoneNumber;
         this.address = address;
+        setBonusPoints(bonusPoints);
+    }
+
+
+
+
+
+    // Methods
+
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public void setAddress(String address) { this.address = address; }
+
+    public void setBonusPoints(int bonusPoints) {
+        if (bonusPoints < 0) {
+            throw new IllegalArgumentException("Bonus points quantity must be non-negative");
+        }
         this.bonusPoints = bonusPoints;
     }
 
+    // Add bonus points
+    public void addBonusPoints(int points) {
+        this.bonusPoints = this.bonusPoints + points;
+    }
+
+    // Use bonus points
+    public void useBonusPoints(int points) {
+        if (bonusPoints < points) throw new IllegalArgumentException("Not enough bonus points");
+        this.bonusPoints = this.bonusPoints - points;
+    }
+
+    // Check if customer is VIP one
+    public boolean isVIP() { return bonusPoints > 1000; }
+
+    // Simple check if email is valid
+    public boolean isEmailValid() {
+        return this.email.contains("@") && this.email.contains(".");
+    }
+
+    // Convert name to uppercase for shipping labels
+    public String getLabelName() {
+        return this.name.toUpperCase();
+    }
 
 
     // Getters
@@ -30,45 +74,15 @@ public class Customer {
     public void setCustomerId(String customerId) { this.customerId = customerId; }
     public void setName(String name) { this.name = name; }
     public void setEmail(String email) {
-        if(email.contains("@") && email.contains(".")){
-            this.email = email;
-        } else {
-            this.email = "Invalid Email";
-        }
-    }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
-    public void setAddress(String address) { this.address = address; }
-    public void setBonusPoints(int bonusPoints) { this.bonusPoints = bonusPoints; }
-
-    // add bonus points
-    public void addBonusPoints(int points) {
-        this.bonusPoints = this.bonusPoints + points;
-    }
-
-    // use bonus points
-    public void useBonusPoints(int points) {
-        if (bonusPoints < points) throw new IllegalArgumentException("Not enough bonus points");
-        this.bonusPoints = this.bonusPoints - points;
-    }
-
-    // check if customer is VIP one
-    public boolean isVIP() { return bonusPoints > 1000; }
-
-    // simple check if email is valid
-    public boolean isEmailValid() {
-        return this.email.contains("@") && this.email.contains(".");
-    }
-
-    // Convert name to uppercase for shipping labels
-    public String getLabelName() {
-        return this.name.toUpperCase();
+        if(!email.contains("@") || !email.contains(".")) throw new IllegalArgumentException("Invalid E-mail");
+        this.email = email;
     }
 
     // output data
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Model.Customer{" +
                 "customerId= '" + customerId + '\'' +
                 ", name= '" + name + '\'' +
                 ", email= '" + email + '\'' +

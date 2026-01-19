@@ -1,4 +1,8 @@
-public class ClothingItem {
+package model;
+
+import exception.InvalidInputException;
+
+public abstract class ClothingItem implements Wearable {
     protected String clothingId;
     protected String name;
     protected Brand brand;
@@ -21,13 +25,22 @@ public class ClothingItem {
         setStockQuantity(stockQuantity);
     }
 
-    public String getType() { return "Generic"; }
+    // =================== Abstract methods =================== //
+    public abstract void clean();
+    public abstract String getType();
+    public abstract double shippingFee();
 
-    public void wear() {
-        System.out.println(name + " is being worn.");
+    // Other methods
+
+    public void applyDiscount( double percentage) {
+        this.price = this.price - (this.price * percentage*0.01);
     }
 
-    public double shippingFee() { return 1000; } // example
+    public boolean isAvailable() {
+        return stockQuantity > 0;
+    }
+
+    public boolean isPremium() { return brand.getRating() >= 100; }
 
     // getters
     public String getId() { return clothingId; }
@@ -40,7 +53,6 @@ public class ClothingItem {
     public int getStockQuantity() { return stockQuantity; }
 
     // setters
-
     public void setId(String id) { this.clothingId = id; }
     public void setName(String name) { this.name = name; }
     public void setBrand(Brand brand) { this.brand = brand; }
@@ -58,23 +70,11 @@ public class ClothingItem {
         this.stockQuantity = stockQuantity;
     }
 
-    // methods
-
-    public void applyDiscount( double percentage) {
-        this.price = this.price - (this.price * percentage*0.01);
-    }
-
-    public boolean isAvailable() {
-        return stockQuantity > 0;
-    }
-
-    public boolean isPremium() { return brand.getRating() >= 100; }
-
     // output data
 
     @Override
     public String toString() {
-        return "ClothingItem{" +
+        return "Model.ClothingItem{" +
                 "clothingId= '" + clothingId + '\'' +
                 ", brand= '" + brand.getName() + '\'' +
                 ", size= '" + size.getSize() + '\'' +

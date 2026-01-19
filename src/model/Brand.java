@@ -1,3 +1,5 @@
+package model;
+
 public class Brand {
     private String brandId;
     private String name;
@@ -12,7 +14,7 @@ public class Brand {
         this.country = country; // can be null
     }
 
-    // methods
+    // Methods
 
     // check if brand is rated
     public boolean isRated() { return rating != 0; }
@@ -36,7 +38,7 @@ public class Brand {
 
     @Override
     public String toString() {
-        return "Brand{" +
+        return "Model.Brand{" +
                 "brandId= '" + brandId + '\'' +
                 ", name= '" + name + '\'' +
                 ", rating= " + rating +

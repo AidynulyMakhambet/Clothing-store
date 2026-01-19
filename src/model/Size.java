@@ -1,3 +1,5 @@
+package model;
+
 public class Size {
     private String size; // e.g. "XS", "S", "M", "L", "XL", "42", "44"
     private String type; // e.g., "Top", "Bottom", "Shoes"

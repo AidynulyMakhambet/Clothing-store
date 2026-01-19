@@ -1,3 +1,5 @@
+package model;
+
 public class Order {
     private int orderId;
     private String customerName;
@@ -12,20 +14,7 @@ public class Order {
         this.status = status;
     }
 
-
-    // Getters
-    public int getOrderId() { return orderId; }
-    public String getCustomerName() { return customerName; }
-    public double getTotalAmount() { return totalAmount; }
-    public String getStatus() { return status; }
-
-    // Setters
-    public void setOrderId(int orderId) { this.orderId = orderId; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
-    public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
-    public void setStatus(String status) { this.status = status; }
-
-    // methods
+    // Methods
 
     // set order status to "Completed"
     public void completeOrder() { this.status = "Completed"; }
@@ -39,11 +28,24 @@ public class Order {
     // add amount
     public void addAmount(double amount) { this.totalAmount = this.totalAmount + amount; }
 
+
+    // Getters
+    public int getOrderId() { return orderId; }
+    public String getCustomerName() { return customerName; }
+    public double getTotalAmount() { return totalAmount; }
+    public String getStatus() { return status; }
+
+    // Setters
+    public void setOrderId(int orderId) { this.orderId = orderId; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
+    public void setStatus(String status) { this.status = status; }
+
     // output data
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Model.Order{" +
                 "orderId= " + '\'' + orderId + '\'' +
                 ", customerName= " + '\'' + customerName + '\'' +
                 ", totalAmount= " + totalAmount +
