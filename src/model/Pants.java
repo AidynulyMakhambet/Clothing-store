@@ -1,13 +1,10 @@
 package model;
 
 public class Pants extends ClothingItem {
-    private String fit; // "Slim", "Regular"
     private boolean hasBeltLoops;
 
-    public Pants(String id, String name, Brand brand, Size size, String color, double price, int stock,
-                 String fit, boolean hasBeltLoops) {
-        super(id, name, brand, size, color, "Pants", price, stock);
-        this.fit = fit;
+    public Pants(String clothingItemId, String name, String color, String size, double price, int stockQuantity, String brand, boolean hasBeltLoops) {
+        super(clothingItemId, name, color, size, price, stockQuantity, brand);
         this.hasBeltLoops = hasBeltLoops;
     }
 
@@ -22,11 +19,7 @@ public class Pants extends ClothingItem {
     // ==================== Implementing Wearable interface ====================
     @Override
     public void wear() {
-        System.out.println("Wearing: " + name + " (fit: " + fit + ").");
-    }
-
-    public String getMaterial(){
-        return "Material for " + name + " (" + category + ")";
+        System.out.println("Wearing: " + name);
     }
 
     @Override
@@ -40,10 +33,9 @@ public class Pants extends ClothingItem {
 
 
     // getters
-    public String getFit() { return fit; }
-    public boolean hasBeltLoops() { return hasBeltLoops; } // optional
+    public boolean getHasBeltLoops() { return hasBeltLoops; } // optional
 
     // setters
-    public void setFit(String fit) { this.fit = fit; }
     public void setHasBeltLoops(boolean hasBeltLoops) { this.hasBeltLoops = hasBeltLoops; } // optional
+
 }

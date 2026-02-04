@@ -2,83 +2,64 @@ package menu;
 
 import model.*;
 import exception.InvalidInputException;
+import database.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class clothingStoreMenu implements Menu{
-    // ArrayLists and Scanner
-    private ArrayList<ClothingItem> allClothingItems;
-    private ArrayList<Customer> allCustomers;
-    private ArrayList<Order> allOrders;
     private Scanner scanner;
+    private ClothingItemDAO clothingItemDAO;
 
-    // Constructor
     public clothingStoreMenu() {
-        this.allClothingItems = new ArrayList<>();
-        this.allCustomers = new ArrayList<>();
-        this.allOrders = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        this.clothingItemDAO = new ClothingItemDAO();
 
-        // Add test data
-        try {
-            Brand brand1 = new Brand("1", "First Brand", 100, "Kazakhstan");
-            Brand brand2 = new Brand("2", "Second Brand", 100, "Germany");
-            Brand brand3 = new Brand("3", "Third Brand", 100, "USA");
-
-            Size size1 = new Size("S", "Shirt");
-            Size size2 = new Size("L", "Pants");
-
-            allCustomers.add(new Customer("1", "Mark", "Email1@google.com", "0 000 000 00 01", "Address1", 1000));
-            allCustomers.add(new Customer("2", "Alex", "Email2@google.com", "0 000 000 00 02", "Address2", 1500));
-
-            allClothingItems.add(new Pants("1", "Pants1", brand1, size2, "red", 5000, 10, "slim", true));
-            allClothingItems.add(new Shirt("2", "Shirt1", brand2, size1, "yellow", 2000, 10, "long", false));
-            allClothingItems.add(new Pants("3", "Pants2", brand3, size2, "blue", 3000, 10, "slim", false));
-
-            allOrders.add(new Order(1, "Alex", 1, "Pending"));
-            allOrders.add(new Order(2, "Mark", 2, "Completed"));
-            allOrders.add(new Order(3, "Steve", 3, "Canceled"));
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error initializing test data: " + e.getMessage());
-        }
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║  CLOTHING STORE MANAGEMENT SYSTEM v2.0   ║");
+        System.out.println("║  Week 8: Fully Database-Driven 🗄️     ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("✅ All data is stored in PostgreSQL");
+        System.out.println("✅ No in-memory ArrayLists");
+        System.out.println("✅ Complete CRUD operations");
     }
 
-
-
     // Display menu
-
     @Override
     public void displayMenu() {
-        System.out.println("\n========================================");
-        System.out.println("  CLOTHING STORE MANAGEMENT SYSTEM");
-        System.out.println("========================================");
-        System.out.println("1. Add Pants");
-        System.out.println("2. Add Shirt");
-        System.out.println("3. View All Clothing Items");
-        System.out.println("4. View Pants Only");
-        System.out.println("5. View Shirts Only");
-        System.out.println("6. Clear All Clothing items (Polymorphism)");
-        System.out.println("7. Add Customer");
-        System.out.println("8. Add Order");
-        System.out.println("9. View All Customers");
-        System.out.println("10. View All Orders");
-        System.out.println("11. Wear clothing item");
-        System.out.println("0. Exit");
-        System.out.println("========================================");
-        System.out.print("Enter your choice: ");
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║         MAIN MENU - Week 8            ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("┌─ CLOTHING ITEMS MANAGEMENT ─────────────┐");
+        System.out.println("│ 1. Add Pants                            │");
+        System.out.println("│ 2. Add Shirt                            │");
+        System.out.println("│ 3. View All ClothingItems               │");
+        System.out.println("│ 4. View Pants Only                      │");
+        System.out.println("│ 5. View Shirt Only                      │");
+        System.out.println("│ 6. Update ClothingItem                  │");
+        System.out.println("│ 7. Delete ClothingItem                  │");
+        System.out.println("├─ SEARCH & FILTER ───────────────────────┤");
+        System.out.println("│ 8. Search by Name                       │");
+        System.out.println("│ 9. Search by Price Range                │");
+        System.out.println("│10. High-Cost ClothingItems (Salary >= X)│");
+        System.out.println("├─ DEMO & OTHER ──────────────────────────┤");
+        System.out.println("│11. Polymorphism Demo                    │");
+        System.out.println("│ 0. Exit                                 │");
+        System.out.println("└─────────────────────────────────────────┘");
     }
 
     @Override
     public void run() {
-
-        // Menu loop - continues until user exits
         boolean running = true;
+
         while (running) {
+            displayMenu();
+            System.out.print("\n👉 Enter your choice: ");
+
             try {
-                displayMenu(); // Show menu options
-                int choice = scanner.nextInt(); // Read user's choice
-                scanner.nextLine(); // IMPORTANT: consume leftover newline
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
                 switch (choice) {
                     case 1:
                         addPants();
@@ -96,104 +77,91 @@ public class clothingStoreMenu implements Menu{
                         viewShirtsOnly();
                         break;
                     case 6:
-                        demonstratePolymorphism();
+                        updateClothingItem();
                         break;
                     case 7:
-                        addCustomer();
+                        deleteClothingItem();
                         break;
                     case 8:
-                        addOrder();
+                        searchByName();
                         break;
                     case 9:
-                        viewAllCustomers();
+                        searchByPriceRange();
                         break;
                     case 10:
-                        viewAllOrders();
+                        searchByMinPrice();
                         break;
                     case 11:
-                        wearClothingItem();
+                        demonstratePolymorphism();
                         break;
                     case 0:
-                        System.out.println("\nGoodbye! 👋");
                         running = false;
+                        System.out.println("\n╔════════════════════════════════════════╗");
+                        System.out.println("║  Thank you for using our system!      ║");
+                        System.out.println("║  Goodbye! 👋                          ║");
+                        System.out.println("╚════════════════════════════════════════╝");
                         break;
                     default:
-                        System.out.println("\n❌ Invalid choice!");
+                        System.out.println("❌ Invalid choice! Please select 0-11.");
                 }
-            } catch(java.util.InputMismatchException e){
+
+                if (choice != 0) {
+                    pressEnterToContinue();
+                }
+
+            } catch (java.util.InputMismatchException e) {
                 System.out.println("❌ Error: Please enter a valid number!");
                 scanner.nextLine();
-            } catch(Exception e){
+                pressEnterToContinue();
+            } catch (Exception e) {
                 System.out.println("❌ Error: " + e.getMessage());
                 scanner.nextLine();
+                pressEnterToContinue();
             }
         }
-        scanner.close(); // Clean up
-        // Completion message
-        System.out.println("\n=== Program Complete ===");
 
-    } // End of main method
+        scanner.close();
+    }
+
+    // ========================================
+    // CREATE OPERATIONS
+    // ========================================
 
     private void addPants() {
         try {
             System.out.println("\n--- ADD PANTS (Child) ---");
 
-            System.out.print("Enter clothingId: ");
-            String clothingId = scanner.nextLine();
+            System.out.print("Enter clothingItemId: ");
+            String clothingItemId = scanner.nextLine();
 
             System.out.print("Enter name: ");
             String name = scanner.nextLine();
 
-            System.out.print("Enter brandId: ");
-            String brandId = scanner.nextLine();
-            System.out.print("Enter brand name: ");
-            String brandName = scanner.nextLine();
-            System.out.print("Enter brand rating: ");
-            double brandRating = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter brand country: ");
-            String brandCountry = scanner.nextLine();
-
-            System.out.print("Enter size: ");
-            String sizeSize = scanner.nextLine();
-            System.out.print("Enter size type: ");
-            String sizeType = scanner.nextLine();
-
-            System.out.print("Enter chestCm: ");
-            double chest = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter waistCm: ");
-            double waist = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter hipCm: ");
-            double hip = scanner.nextDouble();
-            scanner.nextLine();
-
             System.out.print("Enter color: ");
             String color = scanner.nextLine();
+
+            System.out.print("Enter size: ");
+            String size = scanner.nextLine();
 
             System.out.print("Enter price: ");
             double price = scanner.nextDouble();
             scanner.nextLine();
 
             System.out.print("Enter stockQuantity: ");
-            int stock = scanner.nextInt();
+            int stockQuantity = scanner.nextInt();
             scanner.nextLine();
 
+            System.out.print("Enter brand: ");
+            String brand = scanner.nextLine();
+
             // child fields
-            System.out.print("Enter fit (Slim/Regular/...): ");
-            String fit = scanner.nextLine();
 
             System.out.print("Has belt loops? (true/false): ");
             boolean hasBeltLoops = scanner.nextBoolean();
             scanner.nextLine();
 
-            Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
-            Size size = new Size(sizeSize, sizeType);
-            size.setMeasurements(chest, waist, hip);
+            clothingItemDAO.insertPants(new Pants(clothingItemId, name, color, size, price, stockQuantity, brand, hasBeltLoops));
 
-            allClothingItems.add(new Pants(clothingId, name, brand, size, color, price, stock, fit, hasBeltLoops));
-            System.out.println("\n✅ Pants added successfully!");
         } catch (java.util.InputMismatchException e) {
             System.out.println("❌ Error: Invalid input type!");
             scanner.nextLine();
@@ -206,62 +174,35 @@ public class clothingStoreMenu implements Menu{
         try {
             System.out.println("\n--- ADD SHIRT (Child) ---");
 
-            System.out.print("Enter clothingId: ");
-            String clothingId = scanner.nextLine();
+            System.out.print("Enter clothingItemId: ");
+            String clothingItemId = scanner.nextLine();
 
             System.out.print("Enter name: ");
             String name = scanner.nextLine();
 
-            System.out.print("Enter brandId: ");
-            String brandId = scanner.nextLine();
-            System.out.print("Enter brand name: ");
-            String brandName = scanner.nextLine();
-            System.out.print("Enter brand rating: ");
-            double brandRating = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter brand country: ");
-            String brandCountry = scanner.nextLine();
-
-            System.out.print("Enter size: ");
-            String sizeSize = scanner.nextLine();
-            System.out.print("Enter size type: ");
-            String sizeType = scanner.nextLine();
-
-            System.out.print("Enter chestCm: ");
-            double chest = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter waistCm: ");
-            double waist = scanner.nextDouble();
-            scanner.nextLine();
-            System.out.print("Enter hipCm: ");
-            double hip = scanner.nextDouble();
-            scanner.nextLine();
-
             System.out.print("Enter color: ");
             String color = scanner.nextLine();
+
+            System.out.print("Enter size: ");
+            String size = scanner.nextLine();
 
             System.out.print("Enter price: ");
             double price = scanner.nextDouble();
             scanner.nextLine();
 
             System.out.print("Enter stockQuantity: ");
-            int stock = scanner.nextInt();
+            int stockQuantity = scanner.nextInt();
             scanner.nextLine();
+
+            System.out.print("Enter brand: ");
+            String brand = scanner.nextLine();
 
             // child fields
             System.out.print("Enter sleeveType (Short/Long): ");
             String sleeveType = scanner.nextLine();
 
-            System.out.print("Has collar? (true/false): ");
-            boolean hasCollar = scanner.nextBoolean();
-            scanner.nextLine();
+            clothingItemDAO.insertShirt(new Shirt(clothingItemId, name, color, size, price, stockQuantity, brand, sleeveType));
 
-            Brand brand = new Brand(brandId, brandName, brandRating, brandCountry);
-            Size size = new Size(sizeSize, sizeType);
-            size.setMeasurements(chest, waist, hip);
-
-            allClothingItems.add(new Shirt(clothingId, name, brand, size, color, price, stock, sleeveType, hasCollar));
-            System.out.println("\n✅ Model.Shirt added successfully!");
         } catch (java.util.InputMismatchException e) {
             System.out.println("❌ Error: Invalid input type!");
             scanner.nextLine();
@@ -271,234 +212,273 @@ public class clothingStoreMenu implements Menu{
     }
 
     private void viewAllClothingItems() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL CLOTHING ITEMS ");
-        System.out.println("========================================");
-
-        if (allClothingItems.isEmpty()) {
-            System.out.println("No clothing items found.");
-            return;
-        }
-
-        System.out.println("Total items: " + allClothingItems.size());
-        System.out.println("----------------------------------------");
-
-        int i = 1;
-        for (ClothingItem item : allClothingItems) {
-            System.out.println(i + ") [" + item.getType() + "] " + item.getName());
-            System.out.println("   ID: " + item.getId());
-            System.out.println("   Brand: " + (item.getBrand() != null ? item.getBrand().getName() : "N/A"));
-            System.out.println("   Size: " + (item.getSize() != null ? item.getSize().getSize() : "N/A"));
-            System.out.println("   Color: " + item.getColor());
-            System.out.println("   Price: " + item.getPrice() + " KZT");
-            System.out.println("   Stock: " + item.getStockQuantity() + " | Available: " + (item.isAvailable() ? "✅ Yes" : "❌ No"));
-
-            // Child-specific info
-            if (item instanceof Shirt) {
-                Shirt s = (Shirt) item;
-                System.out.println("   Shirt Info: Formal: " + (s.isFormal() ? "✅" : "❌"));
-            } else if (item instanceof Pants) {
-                Pants p = (Pants) item;
-                System.out.println("   Pants Info: Needs belt" + (p.needsBelt() ? "✅" : "❌"));
-            }
-
-            System.out.println("----------------------------------------");
-            i++;
-        }
+        clothingItemDAO.displayAllClothingItems();
     }
 
     private void viewPantsOnly() {
-        System.out.println("\n=== PANTS ONLY ===");
-        int count = 0;
+        List<Pants> pantsList = clothingItemDAO.getAllPants();
 
-        for (ClothingItem item : allClothingItems) {
-            if (item instanceof Pants) {
-                Pants p = (Pants) item;
-                count++;
-                System.out.println(count + ") " + p.getName());
-                System.out.println("   Fit: " + p.getFit());
-                System.out.println("   Needs belt: " + (p.needsBelt() ? "✅ Yes" : "❌ No"));
-                System.out.println("----------------------------------------");
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║         PANTS ONLY                    ║");
+        System.out.println("╚════════════════════════════════════════╝");
+
+        if (pantsList.isEmpty()) {
+            System.out.println("📭 No chefs in database.");
+        } else {
+            for (int i = 0; i < pantsList.size(); i++) {
+                Pants pants = pantsList.get(i);
+                System.out.println((i + 1) + ". " + pants.toString());
+                System.out.println("   hasBeltLoops: " + pants.getHasBeltLoops());
+                if (pants.needsBelt()) {
+                    System.out.println("   ⭐ NEEDS BELT (have belt loops)");
+                }
+                System.out.println();
             }
+            System.out.println("Total Pants: " + pantsList.size());
         }
-
-        if (count == 0) System.out.println("No pants found.");
     }
 
     private void viewShirtsOnly() {
-        System.out.println("\n=== SHIRTS ONLY ===");
-        int count = 0;
+        List<Shirt> shirts = clothingItemDAO.getAllShirts();
 
-        for (ClothingItem item : allClothingItems) {
-            if (item instanceof Shirt) {
-                Shirt s = (Shirt) item;
-                count++;
-                System.out.println(count + ") " + s.getName());
-                System.out.println("   Sleeve: " + s.getSleeveType());
-                System.out.println("   Formal (collar): " + (s.isFormal() ? "✅ Yes" : "❌ No"));
-                System.out.println("----------------------------------------");
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║        SHIRT ONLY                     ║");
+        System.out.println("╚════════════════════════════════════════╝");
+
+        if (shirts.isEmpty()) {
+            System.out.println("📭 No waiters in database.");
+        } else {
+            for (int i = 0; i < shirts.size(); i++) {
+                Shirt shirt = shirts.get(i);
+                System.out.println((i + 1) + ". " + shirt.toString());
+                System.out.println("   sleeveType: " + shirt.getSleeveType());
+                System.out.println();
             }
+            System.out.println("Total Shirts: " + shirts.size());
         }
-
-        if (count == 0) System.out.println("No shirts found.");
     }
+
+    // ========================================
+    // UPDATE OPERATION (Week 8)
+    // ========================================
+
+    private void updateClothingItem() {
+        System.out.println("\n┌─ UPDATE CLOTHING ITEM ─────────────────────────┐");
+        System.out.print("│ Enter clothing item ID to update: ");
+
+        try {
+            String clothingItemId = scanner.nextLine();
+
+            // First, get existing staff from database
+            ClothingItem existingClothingItem = clothingItemDAO.getClothingItemById(clothingItemId);
+
+            if (existingClothingItem == null) {
+                System.out.println("❌ No clothingItem found with ID: " + clothingItemId);
+                return;
+            }
+
+            // Display current info
+            System.out.println("│ Current Info:");
+            System.out.println("│ " + existingClothingItem.toString());
+            System.out.println("└────────────────────────────────────────┘");
+
+            // Get new values
+            System.out.println("\n┌─ ENTER NEW VALUES ─────────────────────┐");
+            System.out.println("│ (Press Enter to keep current value)   │");
+
+            System.out.print("│ New Name [" + existingClothingItem.getName() + "]: ");
+            String newName = scanner.nextLine();
+            if (newName.trim().isEmpty()) {
+                newName = existingClothingItem.getName();
+            }
+
+            System.out.print("│ New Color [" + existingClothingItem.getColor() + "]: ");
+            String newColor = scanner.nextLine();
+            if (newColor.trim().isEmpty()) {
+                newColor = existingClothingItem.getColor();
+            }
+
+            System.out.print("│ New Size [" + existingClothingItem.getSize() + "]: ");
+            String newSize = scanner.nextLine();
+            if (newSize.trim().isEmpty()) {
+                newSize = existingClothingItem.getSize();
+            }
+
+            System.out.print("│ New Price [" + existingClothingItem.getPrice() + "]: ");
+            String priceInput = scanner.nextLine();
+            double newPrice = priceInput.trim().isEmpty() ?
+                    existingClothingItem.getPrice() : Double.parseDouble(priceInput);
+
+            System.out.print("│ New StockQuantity [" + existingClothingItem.getStockQuantity() + "]: ");
+            String stockQuantityInput = scanner.nextLine();
+            int newStockQuantity = stockQuantityInput.trim().isEmpty() ?
+                    existingClothingItem.getStockQuantity() : Integer.parseInt(stockQuantityInput);
+
+            System.out.print("│ New Brand [" + existingClothingItem.getBrand() + "]: ");
+            String newBrand = scanner.nextLine();
+            if (newBrand.trim().isEmpty()) {
+                newBrand = existingClothingItem.getBrand();
+            }
+
+            // Update based on type
+            if (existingClothingItem instanceof Pants) {
+                System.out.print("│ New hasBeltLoops [" + ((Pants) existingClothingItem).getHasBeltLoops() + "]: ");
+                String hasBeltLoopsInput = scanner.nextLine();
+                boolean newHasBeltLoops = hasBeltLoopsInput.trim().isEmpty() ?
+                        ((Pants) existingClothingItem).getHasBeltLoops() : Boolean.parseBoolean(hasBeltLoopsInput);
+
+                Pants updatedPants = new Pants(clothingItemId, newName, newColor, newSize, newPrice, newStockQuantity, newBrand, newHasBeltLoops);
+                clothingItemDAO.updatePants(updatedPants);
+
+            } else if (existingClothingItem instanceof Shirt) {
+                Shirt shirt = (Shirt) existingClothingItem;
+                System.out.print("│ SleeveType [" + shirt.getSleeveType() + "]: ");
+                String newSleeveType = scanner.nextLine();
+
+                if (newSleeveType.trim().isEmpty()) {
+                    newSleeveType = ((Shirt) existingClothingItem).getSleeveType();
+                }
+
+                Shirt updatedShirt = new Shirt(clothingItemId, newName, newColor, newSize, newPrice, newStockQuantity, newBrand, newSleeveType);
+                clothingItemDAO.updateShirt(updatedShirt);
+            }
+
+            System.out.println("└────────────────────────────────────────┘");
+
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Error: Invalid number format!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Validation Error: " + e.getMessage());
+        }
+    }
+
+    // ========================================
+    // DELETE OPERATION (Week 8)
+    // ========================================
+
+    private void deleteClothingItem() {
+        System.out.println("\n┌─ DELETE CLOTHING ITEM ─────────────────────────┐");
+        System.out.print("│ Enter CLOTHING ITEM ID to delete: ");
+
+        try {
+            String clothingItemId = scanner.nextLine();
+
+            // First, show who will be deleted
+            ClothingItem clothingItem = clothingItemDAO.getClothingItemById(clothingItemId);
+
+            if (clothingItem == null) {
+                System.out.println("❌ No staff found with ID: " + clothingItemId);
+                return;
+            }
+
+            System.out.println("│ Staff to delete:");
+            System.out.println("│ " + clothingItem.toString());
+            System.out.println("└────────────────────────────────────────┘");
+
+            System.out.print("⚠️  Are you sure? (yes/no): ");
+            String confirmation = scanner.nextLine();
+
+            if (confirmation.equalsIgnoreCase("yes")) {
+                clothingItemDAO.deleteClothingItem(clothingItemId);
+            } else {
+                System.out.println("❌ Deletion cancelled.");
+            }
+
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid input!");
+            scanner.nextLine();
+        }
+    }
+
+    // ========================================
+    // SEARCH OPERATIONS (Week 8)
+    // ========================================
+
+    private void searchByName() {
+        System.out.println("\n┌─ SEARCH BY NAME ───────────────────────┐");
+        System.out.print("│ Enter name to search: ");
+        String name = scanner.nextLine();
+        System.out.println("└────────────────────────────────────────┘");
+
+        List<ClothingItem> results = clothingItemDAO.searchByName(name);
+
+        displaySearchResults(results, "Search: '" + name + "'");
+    }
+
+    private void searchByPriceRange() {
+        try {
+            System.out.println("\n┌─ SEARCH BY PRICE RANGE ───────────────┐");
+            System.out.print("│ Enter minimum price: ");
+            double minPrice = scanner.nextDouble();
+
+            System.out.print("│ Enter maximum price: ");
+            double maxPrice = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.println("└────────────────────────────────────────┘");
+
+            List<ClothingItem> results = clothingItemDAO.searchByPriceRange(minPrice, maxPrice);
+
+            displaySearchResults(results, "Salary: " + minPrice + " - " + maxPrice + " KZT");
+
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid number!");
+            scanner.nextLine();
+        }
+    }
+
+    private void searchByMinPrice() {
+        try {
+            System.out.println("\n┌─ HIGH-PRICE CLOTHING ITEM ──────────────────────┐");
+            System.out.print("│ Enter minimum price: ");
+            double minPrice = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.println("└────────────────────────────────────────┘");
+
+            List<ClothingItem> results = clothingItemDAO.searchByMinPrice(minPrice);
+
+            displaySearchResults(results, "Salary >= " + minPrice + " KZT");
+
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid number!");
+            scanner.nextLine();
+        }
+    }
+
+    private void displaySearchResults(List<ClothingItem> results, String criteria) {
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║         SEARCH RESULTS                ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("Criteria: " + criteria);
+        System.out.println("─────────────────────────────────────────");
+
+        if (results.isEmpty()) {
+            System.out.println("📭 No clothingItems found matching criteria.");
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                ClothingItem c = results.get(i);
+                System.out.print((i + 1) + ". ");
+                System.out.print("[" + c.getType() + "] ");
+                System.out.println(c.toString());
+            }
+            System.out.println("─────────────────────────────────────────");
+            System.out.println("Total Results: " + results.size());
+        }
+    }
+
+    // ========================================
+    // POLYMORPHISM DEMO
+    // ========================================
 
     private void demonstratePolymorphism() {
-        System.out.println("\n=== POLYMORPHISM DEMO ===");
-        for (ClothingItem item : allClothingItems) {
-            item.clean(); // same call, different output for Shirt/Pants
-        }
+        clothingItemDAO.demonstratePolymorphism();
     }
 
-    private void addCustomer() {
-        try {
-            System.out.println("\n--- ADD CUSTOMER ---");
+    // ========================================
+    // HELPER METHOD
+    // ========================================
 
-            System.out.print("Enter customerId: ");
-            String customerId = scanner.nextLine();
-
-            System.out.print("Enter name: ");
-            String name = scanner.nextLine();
-
-            System.out.print("Enter email: ");
-            String email = scanner.nextLine();
-
-            System.out.print("Enter phone number: ");
-            String phoneNumber = scanner.nextLine();
-
-            System.out.print("Enter address: ");
-            String address = scanner.nextLine();
-
-            System.out.print("Enter bonus points: ");
-            int bonusPoints = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            Customer customer = new Customer(customerId, name, email, phoneNumber, address, bonusPoints);
-            allCustomers.add(customer);
-
-            System.out.println("\n✅ Customer added successfully!");
-
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("❌ Error: Invalid input type!");
-            scanner.nextLine();
-        } catch (IllegalArgumentException e) {
-            System.out.println("❌ Validation Error: " + e.getMessage());
-        }
+    private void pressEnterToContinue() {
+        System.out.println("\n[Press Enter to continue...]");
+        scanner.nextLine();
     }
-
-    private void viewAllCustomers() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL CUSTOMERS");
-        System.out.println("========================================");
-
-        if (allCustomers.isEmpty()) {
-            System.out.println("No customers found.");
-            return;
-        }
-
-        System.out.println("Total customers: " + allCustomers.size());
-        System.out.println("----------------------------------------");
-
-        for (int i = 0; i < allCustomers.size(); i++) {
-            Customer c = allCustomers.get(i);
-
-            System.out.println((i + 1) + ") " + c.getName());
-            System.out.println("   ID: " + c.getCustomerId());
-            System.out.println("   Email: " + c.getEmail() + " | Valid: " + (c.isEmailValid() ? "✅" : "❌"));
-            System.out.println("   Phone: " + c.getPhoneNumber());
-            System.out.println("   Address: " + c.getAddress());
-            System.out.println("   Bonus points: " + c.getBonusPoints() + " | VIP: " + (c.isVIP() ? "✅ Yes" : "No"));
-            System.out.println("----------------------------------------");
-        }
-    }
-
-    private void addOrder() {
-        try {
-            System.out.println("\n--- ADD ORDER ---");
-
-            System.out.print("Enter orderId: ");
-            int orderId = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            System.out.print("Enter customer name: ");
-            String customerName = scanner.nextLine();
-
-            System.out.print("Enter total amount: ");
-            double totalAmount = scanner.nextDouble();
-            scanner.nextLine(); // consume newline
-
-            System.out.print("Enter status (Pending/Completed/Canceled): ");
-            String status = scanner.nextLine();
-            if (status.trim().isEmpty()) status = "Pending";
-
-            Order order = new Order(orderId, customerName, totalAmount, status);
-            allOrders.add(order);
-
-            System.out.println("\n✅ Model.Order added successfully!");
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("❌ Error: Invalid input type!");
-            scanner.nextLine();
-        } catch (IllegalArgumentException e) {
-            System.out.println("❌ Validation Error: " + e.getMessage());
-        }
-    }
-
-    private void viewAllOrders() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL ORDERS");
-        System.out.println("========================================");
-
-        if (allOrders.isEmpty()) {
-            System.out.println("No orders found.");
-            return;
-        }
-
-        System.out.println("Total orders: " + allOrders.size());
-        System.out.println("----------------------------------------");
-
-        for (int i = 0; i < allOrders.size(); i++) {
-            Order o = allOrders.get(i);
-
-            System.out.println((i + 1) + ") Model.Order #" + o.getOrderId());
-            System.out.println("   Model.Customer: " + o.getCustomerName());
-            System.out.println("   Total: " + o.getTotalAmount() + " KZT");
-            System.out.println("   Status: " + o.getStatus() + (o.isPending() ? " (⏳ pending)" : ""));
-            System.out.println("----------------------------------------");
-        }
-    }
-
-    private void wearClothingItem() {
-        System.out.println("\n--- Wear Clothing item ---");
-
-        if (allClothingItems.isEmpty()) {
-            System.out.println("❌ No Clothing items available to wear!");
-            return;
-        }
-
-        System.out.println("Available Clothing items:");
-        for (int i = 0; i < allClothingItems.size(); i++) {
-            System.out.println((i + 1) + ". " + allClothingItems.get(i).getName());
-        }
-
-        try {
-            System.out.print("Select item number to wear: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            if (choice < 1 || choice > allClothingItems.size()) {
-                throw new InvalidInputException("Invalid item number!");
-            }
-
-            ClothingItem item = allClothingItems.get(choice - 1);
-            item.wear();
-            System.out.println("Material: " + item.getMaterial());
-
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("❌ Error: Please enter a valid number!");
-            scanner.nextLine();
-        } catch (InvalidInputException e) {
-            System.out.println("❌ Error: " + e.getMessage());
-        }
-    }
-
 }

@@ -3,26 +3,23 @@ package model;
 import exception.InvalidInputException;
 
 public abstract class ClothingItem implements Wearable {
-    protected String clothingId;
+    protected String clothingItemId;
     protected String name;
-    protected Brand brand;
-    protected Size size;
     protected String color;
-    protected String category;
+    protected String size;
     protected double price;
     protected int stockQuantity;
+    protected String brand;
 
     // constructor
-    public ClothingItem(String clothingId, String name, Brand brand, Size size,
-                        String color, String category, double price, int stockQuantity){
-        this.clothingId = clothingId;
+    public ClothingItem(String clothingItemId, String name, String color, String size, double price, int stockQuantity, String brand){
+        this.clothingItemId = clothingItemId;
         this.name = name;
-        this.brand = brand;
-        this.size = size;
         this.color = color;
-        this.category = category;
+        this.size = size;
         setPrice(price);
         setStockQuantity(stockQuantity);
+        this.brand = brand;
     }
 
     // =================== Abstract methods =================== //
@@ -31,7 +28,6 @@ public abstract class ClothingItem implements Wearable {
     public abstract double shippingFee();
 
     // Other methods
-
     public void applyDiscount( double percentage) {
         this.price = this.price - (this.price * percentage*0.01);
     }
@@ -40,25 +36,21 @@ public abstract class ClothingItem implements Wearable {
         return stockQuantity > 0;
     }
 
-    public boolean isPremium() { return brand.getRating() >= 100; }
 
     // getters
-    public String getId() { return clothingId; }
-    public String getName() { return name; }
-    public Brand getBrand() { return brand; }
-    public Size getSize() { return size; }
+    public String getClothingItemId() { return clothingItemId; }
+    public String getName() {return name; }
     public String getColor() { return color; }
-    public String getCategory() {return category; }
+    public String getSize() { return size; }
     public double getPrice() { return price; }
     public int getStockQuantity() { return stockQuantity; }
+    public String getBrand() { return brand; }
 
     // setters
-    public void setId(String id) { this.clothingId = id; }
+    public void setClothingItemId(String clothingItemId) { this.clothingItemId = clothingItemId; }
     public void setName(String name) { this.name = name; }
-    public void setBrand(Brand brand) { this.brand = brand; }
-    public void setSize(Size size) { this.size = size; }
     public void setColor(String color) { this.color = color; }
-    public void setCategory(String category) {this.category = category; }
+    public void setSize(String size) { this.size = size; }
 
     public void setPrice(double price){
         if (price < 0) throw new IllegalArgumentException("Price can not be negative.");
@@ -70,18 +62,21 @@ public abstract class ClothingItem implements Wearable {
         this.stockQuantity = stockQuantity;
     }
 
+    public void setBrand(String brand) { this.brand = brand; }
+
+
+
     // output data
 
     @Override
     public String toString() {
-        return "Model.ClothingItem{" +
-                "clothingId= '" + clothingId + '\'' +
-                ", brand= '" + brand.getName() + '\'' +
-                ", size= '" + size.getSize() + '\'' +
+        return "ClothingItem{" +
+                ", name= '" + name + '\'' +
                 ", color= '" + color + '\'' +
-                ", category= '" + category + '\'' +
+                ", size= '" + size + '\'' +
                 ", price= " + price +
                 ", stockQuantity= " + stockQuantity +
+                ", brand= '" + brand + '\'' +
                 '}';
     }
 }
