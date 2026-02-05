@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS clothingItems;
 
 CREATE TABLE clothingItems (
                        clothing_item_id SERIAL PRIMARY KEY,
-                       clothingItemId VARCHAR(100) NOT NULL,
+                       clothingItemId VARCHAR(100) UNIQUE NOT NULL,
                        name VARCHAR(100) NOT NULL,
                        brand VARCHAR(100) NOT NULL,
                        size VARCHAR(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE INDEX idx_clothing_item_name ON clothingItems(name);
 INSERT INTO clothingItems (clothingItemId, name, color, size, price, stockQuantity, brand, clothing_item_type, hasBeltLoops, sleeveType)
 VALUES
     ('1','Pants by KZ', 'red', 'M', 5000, 10, 'KZ', 'PANTS', true, NULL),
-    ('2','Pants by USA', 'yellow', 'L', 5, 3,'USA', 'PANTS', false, NULL);
+    ('2','Pants by USA', 'yellow', 'L', 3000, 3,'USA', 'PANTS', false, NULL);
 
 -- Test shirts
 INSERT INTO clothingItems (clothingItemId, name, color, size, price, stockQuantity, brand, clothing_item_type, hasBeltLoops, sleeveType)

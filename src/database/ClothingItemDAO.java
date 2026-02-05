@@ -1,6 +1,9 @@
 package database;
 
 import model.*;
+
+import javax.xml.crypto.Data;
+import java.nio.file.FileSystemNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,13 +166,13 @@ public class ClothingItemDAO {
                 statement.close();
 
                 if (clothingItem != null) {
-                    System.out.println("✅ Found staff with ID: " + clothingItemId);
+                    System.out.println("✅ Found clothingItem with ID: " + clothingItemId);
                 }
 
                 return clothingItem;
             }
 
-            System.out.println("⚠️ No staff found with ID: " + clothingItemId);
+            System.out.println("⚠️ No clothingItem found with ID: " + clothingItemId);
 
             resultSet.close();
             statement.close();
