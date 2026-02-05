@@ -273,8 +273,8 @@ public class ClothingItemDAO {
     // CHEF set change
     // update chef
     public boolean updatePants(Pants pants) {
-        String sql = "UPDATE clothingItems SET name = ?, color = ?, size = ?, price = ?, stockQuantity = ?, brand = ?, hasBeltLoops = ? " +
-                "WHERE clothing_item_id = ? AND clothing_item_type = 'PANTS'";
+        String sql = "UPDATE clothingItems SET name = ?, color = ?, size = ?, price = ?, stockQuantity = ?, brand = ?, hasBeltLoops = ?" +
+                "WHERE clothingItemId = ? AND clothing_item_type = 'PANTS'";
 
         Connection connection = DatabaseConnection.getConnection();
         if (connection == null) return false;
