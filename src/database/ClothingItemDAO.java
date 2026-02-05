@@ -167,9 +167,8 @@ public class ClothingItemDAO {
 
                 if (clothingItem != null) {
                     System.out.println("✅ Found clothingItem with ID: " + clothingItemId);
+                    return clothingItem;
                 }
-
-                return clothingItem;
             }
 
             System.out.println("⚠️ No clothingItem found with ID: " + clothingItemId);
@@ -537,6 +536,9 @@ public class ClothingItemDAO {
      * Creates Pants or Shirt based on clothing_item_type
      */
     private ClothingItem extractClothingItemFromResultSet(ResultSet resultSet) throws SQLException {
+
+        ClothingItem item = null;
+
         String clothingItemId = resultSet.getString("clothingItemId");
         String name = resultSet.getString("name");
         String color = resultSet.getString("color");
@@ -544,16 +546,14 @@ public class ClothingItemDAO {
         double price = resultSet.getDouble("price");
         int stockQuantity = resultSet.getInt("stockQuantity");
         String brand = resultSet.getString("brand");
-        String type = resultSet.getString("clothing_item_type");
+        String clothingItemType = resultSet.getString("clothing_item_type");
 
-        ClothingItem item = null;
-
-        if ("PANTS".equals(type)) {
+        if ("PANTS".equals(clothingItemType)) {
             boolean hasBeltLoops = resultSet.getBoolean("hasBeltLoops");
 
             item = new Pants(clothingItemId, name, color, size, price, stockQuantity, brand, hasBeltLoops);
         }
-        else if ("SHIRT".equals(type)) {
+        else if ("SHIRT".equals(clothingItemType)) {
             String sleeveType = resultSet.getString("sleeveType");
 
             item = new Shirt(clothingItemId, name, color, size, price, stockQuantity, brand, sleeveType);
